@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management Application</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body ng-app="myApp">
+<div id="wrapper">
+
+<div id="form1" ng-controller="formCtrl1">
+    <h1>Create User</h1>
+    <p>* required to create</p>
+    <form id="createform" name="createform" ng-model="createform" novalidate>
+        <table>
+            <tr>
+                <td>User Id:  </td>
+                <td><input type="text" id="id" ng-model="formData.id" name="id" required=""></td>
+                <td><span>*</span><span ng-model="idError"></span>
+                    <span ng-show="createform.$submitted || createform.id.$touched">
+                        <span ng-show="createform.id.$invalid">Please enter an Id</span>
+                    </span>
+                </td>
+            </tr>
+            <tr><td>First Name: </td>
+                <td><input type="text" id="firstName" ng-model="formData.firstName" name="firstName" required=""></td>
+                <td><span>*</span>
+                    <span ng-show="createform.$submitted || createform.firstName.$touched">
+                        <span ng-show="createform.firstName.$invalid">Please enter a first name</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Middle Name: </td>
+                <td><input type="text" id="middleName" ng-model="formData.middleName"></td>
+            </tr>
+            <tr>
+                <td>Last Name: </td>
+                <td><input type="text" id="lastName" ng-model="formData.lastName" name="lastName" required=""></td>
+                <td><span>*</span>
+                    <span ng-show="createform.$submitted || createform.lastName.$touched">
+                        <span ng-show="createform.lastName.$invalid">Please enter a last name</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Age: </td>
+                <td><input type="number" id="age" min="1" ng-model="formData.age" name="age" required=""></td>
+                <td><span>*</span>
+                    <span ng-show="createform.$submitted || createform.age.$touched">
+                        <span ng-show="createform.age.$invalid">Please enter an age</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Gender: </td>
+                <td>
+                    <select id="gender" ng-model="formData.gender" name="gender" required="">
+                        <option value="M" selected="selected">M</option>
+                        <option value="F">F</option>
+                    </select>
+                </td>
+                <td><span>*</span>
+                    <span ng-show="createform.$submitted || createform.gender.$touched">
+                        <span ng-show="createform.gender.$invalid">Please choose one</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Phone: </td>
+                <td><input type="text" id="phone" ng-model="formData.phone" require ng-pattern="/^[1-9]{1}[0-9]{9}$/" name="phone" required=""></td>
+                <td><span>*</span>
+                    <span ng-show="createform.$submitted || createform.phone.$touched">
+                        <span ng-show="createform.phone.$invalid">Please enter a valid phone number</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Zip Code: </td>
+                <td><input type="text" id="zip" ng-model="formData.zip"></td>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button class="btn btn-default" id="createUserButton" ng-click = "createUser()">Create</button></td>
+            </tr>
+        </table>
+        <p ng-show="message">{{message}}</p>
+    </form>
+    <br />
+</div>
+
+<div id="form2" ng-controller="formCtrl2">
+    <h1>Update User</h1>
+    <p>* required to update</p>
+    <form name="updateform" ng-model="updateform" novalidate>
+        <table>
+            <tr>
+                <td>User Id:  </td>
+                <td><input type="text" ng-model="formData.id" name="id" required=""></td>
+                <td><span>*</span><span ng-model="idError"></span>
+                <span ng-show="updateform.$submitted || updateform.id.$touched">
+                    <span ng-show="updateform.id.$error.required">Please enter an Id</span>
+                </span>
+                </td>
+            </tr>
+            <tr><td>First Name: </td>
+                <td><input type="text" ng-model="formData.firstName" name="firstName"></td>
+            </tr>
+            <tr>
+                <td>Middle Name: </td>
+                <td><input type="text" ng-model="formData.middleName"></td>
+            </tr>
+            <tr>
+                <td>Last Name: </td>
+                <td><input type="text" ng-model="formData.lastName" name="lastName"></td>
+            </tr>
+            <tr>
+                <td>Age: </td>
+                <td><input type="number" min="1" ng-model="formData.age" name="age"></td>
+            </tr>
+            <tr>
+                <td>Gender: </td>
+                <td>
+                    <select ng-model="formData.gender" name="gender">
+                        <option value="M" selected="selected">M</option>
+                        <option value="F">F</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Phone: </td>
+                <td><input type="text" ng-model="formData.phone" require ng-pattern="/^[1-9]{1}[0-9]{9}$/" name="phone"></td>
+            </tr>
+            <tr>
+                <td>Zip Code: </td>
+                <td><input type="text" ng-model="formData.zip"></td>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button class="btn btn-default" id="updateUserButton" ng-click="updateUser()">Update</button></td>
+            </tr>
+        </table>
+        <p ng-show="message">{{message}}</p>
+    </form>
+    <br />
+</div>
+
+<div id = "users" class="links col-lg-4 col-md-3 col-sm-4 text-center"  ng-controller="formCtrl3">
+    <h1 class="hyperlink" id="get">All Users</h1>
+    <button class="btn btn-default" id="getUsersButton" ng-click = "getUsers()">Get Users</button>
+    <table id="userstable">
+        <tr>
+            <td>ID</td>
+            <td>FIRSTNAME</td>
+            <td>MIDDLENAME</td>
+            <td>LASTNAME</td>
+            <td>AGE</td>
+            <td>GENDER</td>
+            <td>PHONE</td>
+            <td>ZIPCODE</td>
+        </tr>
+        <tr ng-repeat="(key,value) in output">
+            <td>{{value.id}}</td>
+            <td>{{value.firstName}}</td>
+            <td>{{value.middleName}}</td>
+            <td>{{value.lastName}}</td>
+            <td>{{value.age}}</td>
+            <td>{{value.gender}}</td>
+            <td>{{value.phone}}</td>
+            <td>{{value.zipCode}}</td>
+        </tr>
+    </table>
+    <p>{{message}}</p>
+</div>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('formCtrl1', function($scope, $http) {
+    $scope.response = "null";
+    $scope.formData = {};
+    $scope.createUser = function() {
+        if ($scope.createform.$invalid) {
+			alert('Please fill the form!!!');
+		}
+		else {
+            $http({
+                url: '/createUser',
+                method:'POST',
+                params: $scope.formData,
+                headers: { 'Content-Type': 'application/json;charset=utf-8' },
+            }).then(function(response) {
+                $scope.message = response.data;
+                $scope.formData = "";
+                $scope.createform.$setPristine();
+                $scope.createform.$setUntouched();
+            }).catch(function(response){
+                $scope.message = "Error in creating user";
+            });
+        }
+    };
+});
+
+app.controller('formCtrl2', function($scope, $http) {
+    $scope.response = "null";
+    $scope.formData = {};
+        $scope.updateUser = function() {
+        if ($scope.updateform.id.$invalid) {
+			$scope.idError="Please enter the id";
+		}
+		else {
+            $http({
+                url: '/updateUser',
+                method:'PUT',
+                params: $scope.formData,
+                headers: { 'Content-Type': 'application/json;charset=utf-8' },
+            }).then(function(response) {
+                $scope.message = response.data;
+                $scope.formData = "";
+                $scope.updateform.$setPristine();
+                $scope.updateform.$setUntouched();
+            }).catch(function(response){
+                $scope.message = "Error in updating user";
+            });
+        }
+    };
+});
+
+app.controller('formCtrl3', function($scope, $http) {
+    $scope.getUsers = function() {
+        $http.get('/getAllUsers')
+        .success(function(response) {
+            if(response == "Null") {
+                $scope.message = "No users!!!";
+            }
+            else {
+                $scope.message = "";
+                $scope.output = response;
+            }
+        })
+        .error(function(){
+            $scope.message = "error";
+        });
+    }
+});
+</script>
+</body>
+</html>

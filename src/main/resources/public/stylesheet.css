@@ -1,0 +1,16 @@
+    <style>
+        #form1{
+            margin: 40px 50px;
+            width: 500px;
+        }
+        #form2{
+            margin: 20px 30px;
+            width: 500px;
+        }
+        #users{
+            margin: 20px 30px;
+        }
+        #userstable{
+            border-spacing: 20px;
+        }
+    </style>
